@@ -144,7 +144,7 @@ into an object of the specified format.
 	Type: OutputObject{},
 	Encoders: cmds.EncoderMap{
 		cmds.Text: cmds.MakeTypedEncoder(func(req *cmds.Request, w io.Writer, out *OutputObject) error {
-			enc, err := cmdenv.ProcCidBaseLowLevel(req)
+			enc, err := cmdenv.GetLowLevelCidEncoder(req)
 			if err != nil {
 				return err
 			}
@@ -231,7 +231,7 @@ var DagResolveCmd = &cmds.Command{
 	},
 	Encoders: cmds.EncoderMap{
 		cmds.Text: cmds.MakeTypedEncoder(func(req *cmds.Request, w io.Writer, out *ResolveOutput) error {
-			enc, err := cmdenv.ProcCidBaseLowLevel(req)
+			enc, err := cmdenv.GetLowLevelCidEncoder(req)
 			if err != nil {
 				return err
 			}
