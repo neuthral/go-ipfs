@@ -50,12 +50,6 @@ test_expect_success "add files using gateway address via url store" '
   HASH2=$(ipfs urlstore add http://127.0.0.1:$GWAY_PORT/ipfs/$HASH2a)
 '
 
-test_expect_success "add files using gateway address via url store using --cid-base=base32" '
-  HASH1b32=$(ipfs --cid-base=base32 urlstore add http://127.0.0.1:$GWAY_PORT/ipfs/$HASH1a) &&
-  HASH2b32=$(ipfs --cid-base=base32 urlstore add http://127.0.0.1:$GWAY_PORT/ipfs/$HASH2a)
-'
-
-
 test_expect_success "make sure hashes are different" '
   test $HASH1a != $HASH1 &&
   test $HASH2a != $HASH2
@@ -154,6 +148,13 @@ test_expect_success "check that the trickle option works" '
   HASHat=$(ipfs add -q --cid-version=1 --raw-leaves=true -n --trickle file3) &&
   HASHut=$(ipfs urlstore add --trickle http://127.0.0.1:$GWAY_PORT/ipfs/$HASH3a) &&
   test $HASHat = $HASHut
+'
+
+test_expect_success "add files using gateway address via url store using --cid-base=base32" '
+  HASH1a=$(ipfs add -q --trickle --raw-leaves=false file1) &&
+  HASH2a=$(ipfs add -q --trickle --raw-leaves=false file2) &&
+  HASH1b32=$(ipfs --cid-base=base32 urlstore add http://127.0.0.1:$GWAY_PORT/ipfs/$HASH1a) &&
+  HASH2b32=$(ipfs --cid-base=base32 urlstore add http://127.0.0.1:$GWAY_PORT/ipfs/$HASH2a)
 '
 
 test_kill_ipfs_daemon
